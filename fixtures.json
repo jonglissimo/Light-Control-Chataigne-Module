@@ -1,0 +1,13 @@
+{
+    "par1": { "type": "par", "address": 1 },
+    "par2": { "type": "par", "address": 460 },
+    "parall": { "type": "group", "groupMembers": ["par1", "par2"], "features": ["color", "dimmer", "shutter", "dimmercurve"]},
+    "ml1": { "type": "ml", "address": 180 },
+    "ml2": { "type": "ml", "address": 200 },
+    "ml3": { "type": "ml", "address": 220 },
+    "ml4": { "type": "ml", "address": 240 },
+    "ml5": { "type": "ml", "address": 260 },
+    "ml6": { "type": "ml", "address": 280 },
+    "mlall": { "type": "group", "groupMembers": ["ml1", "ml2", "ml3", "ml4", "ml5", "ml6"], "features": ["color", "dimmer", "shutter", "pan", "tilt", "zoom", "speed"]},
+
+}

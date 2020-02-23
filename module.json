@@ -1,0 +1,107 @@
+{
+	"name": "DMX Abstraction",
+	"type": "DMX",
+	"path": "Jonglissimo",
+	
+	"version": "1.0.0",
+	"description": "Jonglissimo's module to enable addressing and grouping of DMX lights by names",
+	"url": "https://github.com/jonglissimo/DMX-Abstraction-Chataigne-Module",
+	"downloadURL": "https://github.com/jonglissimo/DMX-Abstraction-Chataigne-Module/archive/master.zip",
+
+	"hasInput": false,
+	"hasOutput": true, 
+
+	"hideDefaultCommands": true,
+	
+	"defaults":
+	{		
+		"dmxType":"Enttec DMX Pro"
+	},
+
+	"parameters":
+	{
+		
+		"Setup":{
+			"type": "Container",
+			"collapsed": false,
+			
+			"Fixture Definition" : { "type": "File", "description": "Select json file with fixture definitions." , "alwaysNotify": true },
+			"Fixtures" : { "type": "File", "description": "Select json file with fixtures."},
+			"Load Fixtures": { "type": "Trigger", "description": "Load the fixture files and create parameters for lights"},
+			"Clear DMX": { "type": "Trigger", "description": "Set all DMX channels to 0"}
+		}
+	},
+
+	"hideDefaultParameters": [],
+	"scripts": [
+		"dmx-abstraction.js"
+	],
+	"values": {},
+	"commands": {
+		"Color": {
+			"menu": "",
+			"callback": "setColor",
+			"parameters": {
+				"Light" : {
+					"type": "String"
+				},
+				"Color": {
+					"type": "Color",
+					"default": [0,0,0,1],
+					"useForMapping": true
+				}
+			}
+		},
+		"Dimmer": {
+			"menu": "",
+			"callback": "setDimmer",
+			"parameters": {
+				"Light" : {
+					"type": "String"
+				},
+				"Dimmer": {
+					"type": "Float",
+					"default": 0,
+					"min": 0,
+					"max": 1,
+					"useForMapping": true
+				}
+			}
+		},
+		"Shutter": {
+			"menu": "",
+			"callback": "setShutter",
+			"parameters": {
+				"Light" : {
+					"type": "String"
+				},
+				"Shutter": {
+					"type": "Float",
+					"default": 0,
+					"min": 0,
+					"max": 1,
+					"useForMapping": true
+				}
+			}
+		},
+		"Set": {
+			"menu": "",
+			"callback": "setSimpleParameter",
+			"parameters": {
+				"Light" : {
+					"type": "String"
+				},
+				"Channel" : {
+					"type": "String"
+				},
+				"Value": {
+					"type": "Float",
+					"default": 0,
+					"min": 0,
+					"max": 1,
+					"useForMapping": true
+				}
+			}
+		}
+	}
+}
