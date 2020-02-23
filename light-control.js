@@ -192,13 +192,17 @@ function getDMXChannel (light, channel, isGroup) {
 //Commands callbacks
 
 function setColor (light, color) {
-	var parameter = getParameter(light, "color");
-	parameter.set(color);
+	if (light != "") {
+		var parameter = getParameter(light, "color");
+		parameter.set(color);
+	}
 }
 
 function setSimpleParameter (light, channel, value) {
-	var parameter = getParameter(light, channel);
-	parameter.set(value);
+	if (light != "" && channel != "") {
+		var parameter = getParameter(light, channel);
+		parameter.set(value);
+	}
 }
 
 function setDimmer (light, value) {

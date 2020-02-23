@@ -1,5 +1,5 @@
 {
-	"name": "DMX Abstraction",
+	"name": "Light Control",
 	"type": "DMX",
 	"path": "Jonglissimo",
 	
@@ -34,7 +34,7 @@
 
 	"hideDefaultParameters": [],
 	"scripts": [
-		"dmx-abstraction.js"
+		"light-control.js"
 	],
 	"values": {},
 	"commands": {
