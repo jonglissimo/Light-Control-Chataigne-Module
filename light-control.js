@@ -83,7 +83,6 @@ function createGroupChannelParameters(name, container) {
 	var p;
 
 	if (features) {
-		script.log(features[0]);
 		var p;
 		
 		for (var i = 0; i < features.length; i++) {
@@ -173,10 +172,6 @@ function moduleValueChanged (param) {
 			for (var i = 0; i < lights.length; i++) {
 				var parameter = getParameter(lights[i], channel);
 				parameter.set(param.get());
-
-				var p1 =parameter.getParent().name;
-				var p2 =parameter.getParent().getParent().name;
-				script.log(p1 + " " + p2);
 			}
 		}
 	}
