@@ -1,4 +1,5 @@
 var parameterPath = local.parameters;
+var valuesPath = local.values;
 var fixtureDefinitionParameter = parameterPath.setup.fixtureDefinition;
 var fixturesParameter = parameterPath.setup.fixtures;
 var fixtureDefinition;
@@ -20,16 +21,17 @@ function loadFixtures() {
 	script.log("Loaded Fixtures");
 	
 	parameterPath = local.getChild("Parameters");
+	valuesPath = local.getChild("Values");
 }
 
 
 function createFixtureParameters() {
 	var fixtureKeys = util.getObjectProperties(fixtures); 
 	
-	parameterPath.removeContainer("Lights");
-	lightsContainer = parameterPath.addContainer("Lights");
-	parameterPath.removeContainer("Groups");
-	groupsContainer = parameterPath.addContainer("Groups");
+	valuesPath.removeContainer("Lights");
+	lightsContainer = valuesPath.addContainer("Lights");
+	valuesPath.removeContainer("Groups");
+	groupsContainer = valuesPath.addContainer("Groups");
 	
 	for (var i = 0; i < fixtureKeys.length; i++) {
 		var key = fixtureKeys[i];
@@ -39,9 +41,11 @@ function createFixtureParameters() {
 		
 		if (isGroup) {
 			var container = groupsContainer.addContainer(key);
+			container.setCollapsed(true);
 			createGroupChannelParameters(key, container);
 		} else {
 			var container = lightsContainer.addContainer(key);
+			container.setCollapsed(true);
 			createLightChannelParameters(key, type, container);
 		}
 	}
@@ -72,12 +76,12 @@ function createLightChannelParameters(name, type, container) {
 	}
 }
 
+
 function createGroupChannelParameters(name, container) {
 	var group = fixtures[name];
 	var features = group.features;
 	var p;
 
-	
 	if (features) {
 		script.log(features[0]);
 		var p;
@@ -115,17 +119,24 @@ function createGroupChannelParameters(name, container) {
 
 function moduleParameterChanged(param) {
 	if (param.is(local.outActivity)) return;
-
-	var isGroup = param.getParent().getParent().name == "groups";
-	var isLight = param.getParent().getParent().name == "lights";
-	var light = param.getParent().name;
-	var channel = param.name;
 	
 	if (param.is(loadFixturesParameter)) {
 		loadFixtures();
 	} else if (param.is(clearDMXParameter)) {
 		clearDMX();
-	} else if (channel == "color") {
+	}
+}
+
+
+function moduleValueChanged (param) { 
+	if (param.is(local.outActivity)) return;
+	
+	var isGroup = param.getParent().getParent().name == "groups";
+	var isLight = param.getParent().getParent().name == "lights";
+	var light = param.getParent().name;
+	var channel = param.name;
+
+	if (channel == "color") {
 		if (isLight) {
 			// output color to DMX
 			var c = convertColorToDMX(param.get());
@@ -162,10 +173,15 @@ function moduleParameterChanged(param) {
 			for (var i = 0; i < lights.length; i++) {
 				var parameter = getParameter(lights[i], channel);
 				parameter.set(param.get());
+
+				var p1 =parameter.getParent().name;
+				var p2 =parameter.getParent().getParent().name;
+				script.log(p1 + " " + p2);
 			}
 		}
 	}
 }
+
 
 function getDMXChannel (light, channel, isGroup) {
 	var fixture = fixtures[light];
@@ -188,8 +204,9 @@ function getDMXChannel (light, channel, isGroup) {
 }
 
 
-
+////////////////////////
 //Commands callbacks
+////////////////////////
 
 function setColor (light, color) {
 	if (light != "") {
@@ -214,7 +231,10 @@ function setShutter (light, value) {
 }
 
 
+////////////////////////
 // Helpers
+////////////////////////
+
 function convertFloatToDMX(value) {
 	return parseInt(value * 255);
 }
@@ -228,9 +248,9 @@ function getParameter(light, channel) {
 	var type = fixtures[light].type;
 	
 	if (type == "group") {
-		return parameterPath.groups[pathName][channel];
+		return valuesPath.groups[pathName][channel];
 	} else {
-		return parameterPath.lights[pathName][channel];
+		return valuesPath.lights[pathName][channel];
 	}
 }
 

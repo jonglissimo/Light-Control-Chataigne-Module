@@ -8,7 +8,7 @@
 	"url": "https://github.com/jonglissimo/DMX-Abstraction-Chataigne-Module",
 	"downloadURL": "https://github.com/jonglissimo/DMX-Abstraction-Chataigne-Module/archive/master.zip",
 
-	"hasInput": false,
+	"hasInput": true,
 	"hasOutput": true, 
 
 	"hideDefaultCommands": true,
