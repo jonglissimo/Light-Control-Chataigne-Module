@@ -210,6 +210,15 @@ function setColor (light, color) {
 	}
 }
 
+function setColorChannel (light, colorIndex, value) {
+	if (light != "") {
+		var parameter = getParameter(light, "color");
+		var color = parameter.get();
+		color[colorIndex] = value;
+		parameter.set(color);
+	}	
+}
+
 function setSimpleParameter (light, channel, value) {
 	if (light != "" && channel != "") {
 		var parameter = getParameter(light, channel);

@@ -52,6 +52,28 @@
 				}
 			}
 		},
+		"Color Channel": {
+			"menu": "",
+			"callback": "setColorChannel",
+			"parameters": {
+				"Light" : {
+					"type": "String"
+				},
+				"Color Index": {
+					"type": "Integer",
+					"default": 0,
+					"min": 0,
+					"max": 3
+				},
+				"Value": {
+					"type": "Float",
+					"default": 1,
+					"min": 0,
+					"max": 1,
+					"useForMapping": true
+				}
+			}
+		},
 		"Dimmer": {
 			"menu": "",
 			"callback": "setDimmer",
