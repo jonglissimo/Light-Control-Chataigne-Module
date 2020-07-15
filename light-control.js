@@ -9,6 +9,7 @@ var loadFixturesParameter = parameterPath.setup.loadFixtures;
 var clearDMXParameter = parameterPath.setup.clearDMX;
 
 function init() {
+	clearDefaultValues();
 	loadFixtures();
 }
 
@@ -199,30 +200,55 @@ function getDMXChannel (light, channel, isGroup) {
 }
 
 
+function clearDefaultValues() {
+	for (var i = 1; i <= 512; i++) {
+		local.values.removeParameter("channel" + i);
+	}
+}
+
 ////////////////////////
 //Commands callbacks
 ////////////////////////
 
 function setColor (light, color) {
+	var channel = "color";
+
 	if (light != "") {
-		var parameter = getParameter(light, "color");
-		parameter.set(color);
+		var parameter = getParameter(light, channel);
+
+		if (parameter != undefined) {
+			parameter.set(color);
+		} else {
+			script.logError("Error: Trying to set " + channel + " for " + light + ", but could not lookup light container. Please check name of light exists in your fixtures json.");	
+		}	
 	}
 }
 
 function setColorChannel (light, colorIndex, value) {
+	var channel = "color";
+
 	if (light != "") {
-		var parameter = getParameter(light, "color");
-		var color = parameter.get();
-		color[colorIndex] = value;
-		parameter.set(color);
+		var parameter = getParameter(light, channel);
+
+		if (parameter != undefined) {
+			var color = parameter.get();
+			color[colorIndex] = value;
+			parameter.set(color);
+		} else {
+			script.logError("Error: Trying to set " + channel + " for " + light + ", but could not lookup light container. Please check name of light exists in your fixtures json.");	
+		}	
 	}	
 }
 
 function setSimpleParameter (light, channel, value) {
 	if (light != "" && channel != "") {
 		var parameter = getParameter(light, channel);
-		parameter.set(value);
+		
+		if (parameter != undefined) {
+			parameter.set(value);
+		} else {
+			script.logError("Error: Trying to set " + channel + " for " + light + ", but could not lookup light container. Please check name of light exists in your fixtures json.");	
+		}
 	}
 }
 
