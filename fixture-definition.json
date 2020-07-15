@@ -1,24 +1,11 @@
 {
     "defintions": {
-        "ml": {
-            "dimmer": 6,
-            "color": [8,9,10],
-            "shutter": { "channel": 7, "default": 1 },
-            "pan": 1,
-            "tilt": 3,
-            "zoom": 16,
-            "speed": 5,
-            "special": 15
-        },
         "par": {
             "color": [1,2,3],
             "dimmer": 6,
             "uv": 4,
             "shutter": { "channel": 5, "default": 1},
             "dimmercurve": 10
-        },
-        "par4c": {
-            "color": [1,2,3]
         }
     }
 }
