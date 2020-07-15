@@ -35,6 +35,7 @@ You can create a group of lights by using the type "group" (cf. "parall" below).
     "parall": { "type": "group", "groupMembers": ["par1", "par2"], "features": ["color", "dimmer", "shutter", "dimmercurve"]},
 }
 
+
 ## Naming convention
 
 Currently fixtures and light names are only allowed to contain lower case letters and numbers, or internal lookup of containers will break.
