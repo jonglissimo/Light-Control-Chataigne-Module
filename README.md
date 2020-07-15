@@ -34,6 +34,7 @@ You can create a group of lights by using the type "group" (cf. "parall" below).
     "par2": { "type": "par", "address": 460 },
     "parall": { "type": "group", "groupMembers": ["par1", "par2"], "features": ["color", "dimmer", "shutter", "dimmercurve"]},
 }
+```
 
 
 ## Naming convention
