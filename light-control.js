@@ -9,7 +9,7 @@ var loadFixturesParameter = parameterPath.setup.loadFixtures;
 var clearDMXParameter = parameterPath.setup.clearDMX;
 
 function init() {
-	clearDefaultValues();
+	//clearDefaultValues();
 	loadFixtures();
 }
 
@@ -17,12 +17,16 @@ function loadFixtures() {
 	var fd = util.readFile(fixtureDefinitionParameter.get(), true);
 	fixtureDefinition = fd.defintions;
 	fixtures = util.readFile(fixturesParameter.get(), true);
-	
-	createFixtureParameters();
-	script.log("Loaded Fixtures");
-	
-	parameterPath = local.getChild("Parameters");
-	valuesPath = local.getChild("Values");
+
+	if (fixtureDefinition == undefined || fixtures == unefined) {
+		script.logError("Could not read fixture definition and fixtures JSON files.");
+	} else {
+		createFixtureParameters();
+		script.log("Loaded Fixtures");
+		
+		parameterPath = local.getChild("Parameters");
+		valuesPath = local.getChild("Values");
+	}
 }
 
 

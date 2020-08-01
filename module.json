@@ -3,12 +3,12 @@
 	"type": "DMX",
 	"path": "Jonglissimo",
 	
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Jonglissimo's module to enable addressing and grouping of DMX lights by names",
 	"url": "https://github.com/jonglissimo/Light-Control-Chataigne-Module",
 	"downloadURL": "https://github.com/jonglissimo/Light-Control-Chataigne-Module/archive/master.zip",
 
-	"hasInput": true,
+	"hasInput": false,
 	"hasOutput": true, 
 
 	"hideDefaultCommands": true,
