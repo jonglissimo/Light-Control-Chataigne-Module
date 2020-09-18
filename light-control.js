@@ -100,10 +100,6 @@ function createGroupChannelParameters(name, container) {
 			} else {
 				p = container.addFloatParameter(channelUIName, channelName + " of " + name,0,0,1);
 				p.setAttribute("alwaysNotify", true);
-		
-				if (defaultValue) {
-					p.set(channelValue.default); // needed to trigger parameter change event
-				}
 			}
 		}	
 		
