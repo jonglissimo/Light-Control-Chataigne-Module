@@ -20,8 +20,12 @@ function init() {
 }
 
 function loadCorrections() {
-	corrections = util.readFile(correctionsParameter.get(), true);
-	resendPanAndTilt();
+	var fileName = correctionsParameter.get();
+
+	if (util.fileExists(fileName)) {
+		corrections = util.readFile(fileName, true);
+		resendPanAndTilt();
+	}
 }
 
 function resendPanAndTilt() {
