@@ -3,7 +3,7 @@
 	"type": "DMX",
 	"path": "Jonglissimo",
 	
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Jonglissimo's module to enable addressing and grouping of DMX lights by names",
 	"url": "https://github.com/jonglissimo/Light-Control-Chataigne-Module",
 	"downloadURL": "https://github.com/jonglissimo/Light-Control-Chataigne-Module/archive/master.zip",
@@ -27,8 +27,10 @@
 			
 			"Fixture Definition" : { "type": "File", "description": "Select json file with fixture definitions." , "alwaysNotify": true },
 			"Fixtures" : { "type": "File", "description": "Select json file with fixtures."},
+			"Corrections" : { "type": "File", "description": "Select json file with corrections for pan/tilt/zoom parameters."},
 			"Load Fixtures": { "type": "Trigger", "description": "Load the fixture files and create parameters for lights"},
-			"Clear DMX": { "type": "Trigger", "description": "Set all DMX channels to 0"}
+			"Clear DMX": { "type": "Trigger", "description": "Set all DMX channels to 0"},
+			"Reload Corrections": { "type": "Trigger", "description": "Reload the corrections for pan/tilt/zoom from json file." }
 		}
 	},
 

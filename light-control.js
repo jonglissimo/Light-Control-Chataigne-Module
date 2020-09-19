@@ -5,22 +5,46 @@ var fixturesParameter = parameterPath.setup.fixtures;
 var fixtureDefinition;
 var fixtures;
 var lightsContainer;
+var correctionsParameter = parameterPath.setup.corrections;
+var reloadCorrections = parameterPath.setup.reloadCorrections;
+var corrections;
+var panTiltParameters = [];
 var loadFixturesParameter = parameterPath.setup.loadFixtures;
 var clearDMXParameter = parameterPath.setup.clearDMX;
+
 
 function init() {
 	//clearDefaultValues();
 	loadFixtures();
+	loadCorrections();
+}
+
+function loadCorrections() {
+	corrections = util.readFile(correctionsParameter.get(), true);
+	resendPanAndTilt();
+}
+
+function resendPanAndTilt() {
+	for (var i = 0; i < panTiltParameters.length; i++) {
+		var o = panTiltParameters[i];
+		var value = o.parameter.get();
+		value = getCorrectedPanTiltValue(o.light, o.channel, value);
+		value = convertFloatToDMX(value);
+		var dmxChannel = getDMXChannel(o.light, o.channel, false);
+
+		local.send(dmxChannel, value);
+	}
 }
 
 function loadFixtures() {
 	var fd = util.readFile(fixtureDefinitionParameter.get(), true);
 	fixtureDefinition = fd.defintions;
 	fixtures = util.readFile(fixturesParameter.get(), true);
-
-	if (fixtureDefinition == undefined || fixtures == unefined) {
+	
+	if (fixtureDefinition == undefined || fixtures == undefined) {
 		script.logError("Could not read fixture definition and fixtures JSON files.");
 	} else {
+		panTiltParameters = [];
 		createFixtureParameters();
 		script.log("Loaded Fixtures");
 		
@@ -77,6 +101,10 @@ function createLightChannelParameters(name, type, container) {
 			if (defaultValue) {
 				p.set(channelValue.default); // needed to trigger parameter change event
 			}
+
+			if (channelName == "pan" || channelName == "tilt") {
+				panTiltParameters.push({ "light": name, "channel": channelName, "parameter": p });
+			}
 		}
 	}
 }
@@ -124,6 +152,8 @@ function moduleParameterChanged(param) {
 		loadFixtures();
 	} else if (param.is(clearDMXParameter)) {
 		clearDMX();
+	} else if (param.is(reloadCorrections)) {
+		loadCorrections();
 	}
 }
 
@@ -161,9 +191,9 @@ function moduleValueChanged (param) {
 	} else {
 		if (isLight) {
 			// output to DMX
-			var maxOfFeature = fixtureFeatures[channel].maxOutput;
-			
-			var value = convertFloatToDMX(param.get(), maxOfFeature);
+			var value = param.get();
+			value = getCorrectedPanTiltValue(light, channel, value);
+			value = convertFloatToDMX(value);
 			var dmxChannel = getDMXChannel(light, channel, isGroup);
 			local.send(dmxChannel, value);
 		} else if (isGroup) {
@@ -178,6 +208,21 @@ function moduleValueChanged (param) {
 	}
 }
 
+function getCorrectedPanTiltValue(light, channel, value) {
+	if (channel == "pan") {
+		var c = corrections[light].panCorrection;
+		var panReversal = corrections[light].panReverse;
+		value = (panReversal) ? 1-value : value;
+		value = value + c;
+	} else if (channel == "tilt") {
+		var c = corrections[light].tiltCorrection;
+		var tiltReversal = corrections[light].tiltReverse;
+		value = (tiltReversal) ? 1-value : value;
+		value = value + c;
+	} 
+
+	return value;
+}
 
 function getDMXChannel (light, channel, isGroup) {
 	var fixture = fixtures[light];
@@ -266,7 +311,10 @@ function setShutter (light, value) {
 ////////////////////////
 
 function convertFloatToDMX(value) {
-	return parseInt(value * 255);
+	value = parseInt(value * 255);
+	value = (value > 255) ? 255 : value;
+	value = (value < 0) ? 0 : value;
+	return value;
 }
 
 function convertColorToDMX(c) {
