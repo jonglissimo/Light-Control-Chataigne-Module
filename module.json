@@ -50,7 +50,7 @@
 				"Color": {
 					"type": "Color",
 					"default": [0,0,0,1],
-					"useForMapping": true
+					"mappingIndex": 0
 				}
 			}
 		},
@@ -72,7 +72,7 @@
 					"default": 1,
 					"min": 0,
 					"max": 1,
-					"useForMapping": true
+					"mappingIndex": 0
 				}
 			}
 		},
@@ -88,7 +88,7 @@
 					"default": 0,
 					"min": 0,
 					"max": 1,
-					"useForMapping": true
+					"mappingIndex": 0
 				}
 			}
 		},
@@ -104,7 +104,7 @@
 					"default": 0,
 					"min": 0,
 					"max": 1,
-					"useForMapping": true
+					"mappingIndex": 0
 				}
 			}
 		},
@@ -123,7 +123,7 @@
 					"default": 0,
 					"min": 0,
 					"max": 1,
-					"useForMapping": true
+					"mappingIndex": 0
 				}
 			}
 		}
