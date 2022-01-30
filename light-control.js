@@ -63,8 +63,11 @@ function createFixtureParameters() {
 	
 	parameterPath.removeContainer("Lights");
 	lightsContainer = parameterPath.addContainer("Lights");
+	lightsContainer.setCollapsed(true);
+
 	parameterPath.removeContainer("Groups");
 	groupsContainer = parameterPath.addContainer("Groups");
+	groupsContainer.setCollapsed(true);
 	
 	for (var i = 0; i < fixtureKeys.length; i++) {
 		var key = fixtureKeys[i];
