@@ -15,7 +15,7 @@
 	
 	"defaults":
 	{		
-		"dmxType":"Enttec DMX Pro"
+		"dmxType":"Art-Net"
 	},
 
 	"parameters":
