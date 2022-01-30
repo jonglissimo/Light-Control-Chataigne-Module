@@ -6,6 +6,16 @@
             "uv": 4,
             "shutter": { "channel": 5, "default": 1},
             "dimmercurve": 10
+        },
+        "ml": {
+            "color": [8,9,10],
+            "dimmer": 6,
+            "shutter": { "channel": 7, "default": 1},
+            "pan": 1,
+            "tilt": 3,
+            "zoom": 16,
+            "speed": 5,
+            "special": 15
         }
     }
 }

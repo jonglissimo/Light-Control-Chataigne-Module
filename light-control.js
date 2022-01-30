@@ -1,5 +1,4 @@
 var parameterPath = local.parameters;
-var valuesPath = local.values;
 var fixtureDefinitionParameter = parameterPath.setup.fixtureDefinition;
 var fixturesParameter = parameterPath.setup.fixtures;
 var fixtureDefinition;
@@ -25,6 +24,8 @@ function loadCorrections() {
 	if (util.fileExists(fileName)) {
 		corrections = util.readFile(fileName, true);
 		resendPanAndTilt();
+	} else {
+		script.logWarning("Correction file not found");
 	}
 }
 
@@ -53,7 +54,6 @@ function loadFixtures() {
 		script.log("Loaded Fixtures");
 		
 		parameterPath = local.getChild("Parameters");
-		valuesPath = local.getChild("Values");
 	}
 }
 
@@ -61,10 +61,10 @@ function loadFixtures() {
 function createFixtureParameters() {
 	var fixtureKeys = util.getObjectProperties(fixtures); 
 	
-	valuesPath.removeContainer("Lights");
-	lightsContainer = valuesPath.addContainer("Lights");
-	valuesPath.removeContainer("Groups");
-	groupsContainer = valuesPath.addContainer("Groups");
+	parameterPath.removeContainer("Lights");
+	lightsContainer = parameterPath.addContainer("Lights");
+	parameterPath.removeContainer("Groups");
+	groupsContainer = parameterPath.addContainer("Groups");
 	
 	for (var i = 0; i < fixtureKeys.length; i++) {
 		var key = fixtureKeys[i];
@@ -158,11 +158,13 @@ function moduleParameterChanged(param) {
 		clearDMX();
 	} else if (param.is(reloadCorrections)) {
 		loadCorrections();
+	} else {
+		lightOrGroupChanged(param);
 	}
 }
 
 
-function moduleValueChanged (param) { 
+function lightOrGroupChanged (param) { 
 	if (param.is(local.outActivity)) return;
 	
 	var isGroup = param.getParent().getParent().name == "groups";
@@ -216,6 +218,7 @@ function getCorrectedPanTiltValue(light, channel, value) {
 	if (channel == "pan") {
 		var c = corrections[light].panCorrection;
 		var panReversal = corrections[light].panReverse;
+
 		value = (panReversal) ? 1-value : value;
 		value = value + c;
 	} else if (channel == "tilt") {
@@ -223,6 +226,9 @@ function getCorrectedPanTiltValue(light, channel, value) {
 		var tiltReversal = corrections[light].tiltReverse;
 		value = (tiltReversal) ? 1-value : value;
 		value = value + c;
+	}  else if (channel == "zoom") {
+		var zoomReversal = corrections[light].zoomReverse;
+		value = (zoomReversal) ? 1-value : value;
 	} 
 
 	return value;
@@ -330,9 +336,9 @@ function getParameter(light, channel) {
 	var type = fixtures[light].type;
 	
 	if (type == "group") {
-		return valuesPath.groups[pathName][channel];
+		return parameterPath.groups[pathName][channel];
 	} else {
-		return valuesPath.lights[pathName][channel];
+		return parameterPath.lights[pathName][channel];
 	}
 }
 

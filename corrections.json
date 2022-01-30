@@ -1,0 +1,4 @@
+{
+    "ml1": { "panCorrection": 0, "tiltCorrection": 0, "panReverse": false, "tiltReverse": false },
+    "ml2": { "panCorrection": 0, "tiltCorrection": 0, "panReverse": false, "tiltReverse": false }
+}
